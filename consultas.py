@@ -262,9 +262,7 @@ print('*'*50)
 33. Haga un gráfico de barras por Sexo de toda Colombia
 '''
 sexo = ['F','M']
-f=data.loc[(data['Sexo'] == 'F')].shape[0]
-m=data.loc[(data['Sexo'] == 'M')].shape[0]
-cantidad = [3248296,2855159]
+cantidad = [data.loc[(data['Sexo'] == 'F')].shape[0],data.loc[(data['Sexo'] == 'M')].shape[0]]
 plt.barh(sexo,cantidad, color="green")
 plt.ylabel('Generos')
 plt.xlabel('Casos')
