@@ -183,8 +183,10 @@ print('*'*50)
 PUNTO 19:
 Liste el promedio de edad de contagiados por hombre y mujeres por
 ciudad por departamento'''
-#NO HECHO
-
+edades_prom = data.groupby(['Nombre departamento','Nombre municipio','Sexo'])['Edad'].agg(['mean'])
+#Source: stackoverflow 
+#https://stackoverflow.com/questions/41040132/pandas-groupby-count-and-mean-combined
+print(f'Promedio de edad de contagiados por hombre y mujeres:\n{edades_prom}')
 '''
 PUNTO 20:
 Liste de mayor a menor el número de contagiados por país de
@@ -228,6 +230,12 @@ print(f'Ciudad la cantidad de personas por atención \n{tipo_atencion}')
 print('*'*50)
 '''
 26. Liste el promedio de edad por sexo por cada ciudad de contagiados
+'''
+edades_prom_ciudad = data.groupby(['Nombre municipio','Sexo'])['Edad'].agg(['mean'])
+#Source: stackoverflow 
+#https://stackoverflow.com/questions/41040132/pandas-groupby-count-and-mean-combined
+print(f'Promedio de edad de contagiados por ciudad:\n{edades_prom_ciudad}')
+'''
 27. Grafique las curvas de contagio, muerte y recuperación de toda
 Colombia acumulados
 28. Grafique las curvas de contagio, muerte y recuperación de los 10
@@ -245,12 +253,23 @@ print('*'*50)
 '''
 31. Liste el porcentaje de personas por atención de toda Colombia
 '''
+
 '''
 32. Haga un gráfico de barras por atención de toda Colombia
 '''
-
 '''
 33. Haga un gráfico de barras por Sexo de toda Colombia
+'''
+sexo = ['F','M']
+f=data.loc[(data['Sexo'] == 'F')].shape[0]
+m=data.loc[(data['Sexo'] == 'M')].shape[0]
+cantidad = [3248296,2855159]
+plt.barh(sexo,cantidad, color="green")
+plt.ylabel('Generos')
+plt.xlabel('Casos')
+plt.title('Contagiados por sexo')
+plt.show()
+'''
 34. Haga un gráfico de barras por tipo de toda Colombia
 35. Haga un gráfico de barras del número de contagiados, recuperados y
 fallecidos por fecha de toda Colombia
