@@ -222,6 +222,7 @@ departamento
 24. Liste la tasa de mortalidad y recuperación que tiene cada ciudad
 '''
 # NO HECHO
+
 '''
 25. Liste por cada ciudad la cantidad de personas por atención
 '''
@@ -229,13 +230,15 @@ tipo_atencion = data.groupby(['Nombre municipio','Ubicación del caso']).size()
 print(f'Ciudad la cantidad de personas por atención \n{tipo_atencion}')
 print('*'*50)
 '''
-26. Liste el promedio de edad por sexo por cada ciudad de contagiados
+PUNTO 26:
+ Liste el promedio de edad por sexo por cada ciudad de contagiados
 '''
 edades_prom_ciudad = data.groupby(['Nombre municipio','Sexo'])['Edad'].agg(['mean'])
 #Source: stackoverflow 
 #https://stackoverflow.com/questions/41040132/pandas-groupby-count-and-mean-combined
 print(f'Promedio de edad de contagiados por ciudad:\n{edades_prom_ciudad}')
 '''
+#NO HECHO
 27. Grafique las curvas de contagio, muerte y recuperación de toda
 Colombia acumulados
 28. Grafique las curvas de contagio, muerte y recuperación de los 10
@@ -243,8 +246,10 @@ departamentos con mas casos de contagiados acumulados
 29. Grafique las curvas de contagio, muerte y recuperación de las 10
 ciudades con mas casos de contagiados acumulados
 '''
+
 '''
-30. Liste de mayor a menor la cantidad de fallecidos por edad en toda
+PUNTO 30:
+    Liste de mayor a menor la cantidad de fallecidos por edad en toda
 Colombia.
 '''
 fallecidos_edad=data[(data['Estado'] == 'Fallecido')].groupby(['Edad']).size().sort_values(ascending=(False))
@@ -252,12 +257,8 @@ print(f'Fallecidos por edad en toda Colombia. \n{fallecidos_edad}')
 print('*'*50)
 '''
 31. Liste el porcentaje de personas por atención de toda Colombia
-'''
-
-'''
 32. Haga un gráfico de barras por atención de toda Colombia
-'''
-'''
+
 33. Haga un gráfico de barras por Sexo de toda Colombia
 '''
 sexo = ['F','M']
