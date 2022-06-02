@@ -211,17 +211,26 @@ Colombia
 cantidad_casos = data.shape[0]
 tasa_mortalidad =  fallecidos / cantidad_casos * 100
 tasa_recuperacion = recuperados / cantidad_casos * 100
+print("Colombia")
 print(f'Tasa de mortalidad: {tasa_mortalidad}\nTasa de recuperación: {tasa_recuperacion}')
 print('*'*50)
 '''
 23. Liste la tasa de mortalidad y recuperación que tiene cada
 departamento
 '''
-# NO HECHO
+departamento_mortalidad = (data[data['Estado'] == 'Fallecido'].groupby('Nombre departamento').size() / len(data)) * 100
+print(f'Tasa de mortalidad por Departamento:\n{departamento_mortalidad}')
+departamento_recuperacion = (data[data['Recuperado'] == 'Recuperado'].groupby('Nombre departamento').size() / len(data)) * 100
+print(f'Tasa de recuperación por departamento:\n{departamento_recuperacion}')
+print('*'*50)
 '''
 24. Liste la tasa de mortalidad y recuperación que tiene cada ciudad
 '''
-# NO HECHO
+municipio_mortalidad = (data[data['Estado'] == 'Fallecido'].groupby('Nombre municipio').size() / len(data)) * 100
+print(f'Tasa de mortalidad por municipio:\n{municipio_mortalidad}')
+municipio_recuperacion = (data[data['Recuperado'] == 'Recuperado'].groupby('Nombre municipio').size() / len(data)) * 100
+print(f'Tasa de recuperación por municipio:\n{municipio_recuperacion}')
+print('*'*50)
 
 '''
 25. Liste por cada ciudad la cantidad de personas por atención
@@ -238,15 +247,38 @@ edades_prom_ciudad = data.groupby(['Nombre municipio','Sexo'])['Edad'].agg(['mea
 #https://stackoverflow.com/questions/41040132/pandas-groupby-count-and-mean-combined
 print(f'Promedio de edad de contagiados por ciudad:\n{edades_prom_ciudad}')
 '''
-#NO HECHO
-27. Grafique las curvas de contagio, muerte y recuperación de toda
+PUNTO 27:
+ Grafique las curvas de contagio, muerte y recuperación de toda
 Colombia acumulados
-28. Grafique las curvas de contagio, muerte y recuperación de los 10
+'''
+plt.title('Las curva de contagio en colombia')
+data.groupby('Fecha de diagnóstico').size().plot()
+plt.title('Las curva de muerte en colombia')
+data[ (data['Estado'] == 'Fallecido')].groupby('Fecha de diagnóstico').size().plot()
+plt.title('Las curva de recuperacion en colombia')
+data[ (data['Recuperado'] == 'Recuperado')].groupby('Fecha de diagnóstico').size().plot()
+'''
+PUNTO 28:
+Grafique las curvas de contagio, muerte y recuperación de los 10
 departamentos con mas casos de contagiados acumulados
-29. Grafique las curvas de contagio, muerte y recuperación de las 10
+'''
+plt.title('Las curva de contagio en colombia: TOP 10 DEPARTAMENTOS')
+data['Nombre departamento'].value_counts().head(10).plot()
+plt.title('Las curva de muerte en colombia: TOP 10 DEPARTAMENTOS')
+data[(data['Estado'] == 'Fallecido')].groupby(['Nombre departamento']).size().sort_values(ascending=(False)).head(10).plot()
+plt.title('Las curva de recuperacion en colombia: TOP 10 DEPARTAMENTOS')
+data[(data['Recuperado'] == 'Recuperado')].groupby(['Nombre departamento']).size().sort_values(ascending=(False)).head(10).plot()
+'''
+PUNTO 29:
+Grafique las curvas de contagio, muerte y recuperación de las 10
 ciudades con mas casos de contagiados acumulados
 '''
-
+plt.title('Las curva de contagio en colombia: TOP 10 CIUDADES')
+data['Nombre municipio'].value_counts().head(10).plot()
+plt.title('Las curva de muerte en colombia: TOP 10 CIUDADES')
+data[(data['Estado'] == 'Fallecido')].groupby(['Nombre municipio']).size().sort_values(ascending=(False)).head(10).plot()
+plt.title('Las curva de recuperacion en colombia: TOP 10 CIUDADES')
+data[(data['Recuperado'] == 'Recuperado')].groupby(['Nombre municipio']).size().sort_values(ascending=(False)).head(10).plot()
 '''
 PUNTO 30:
     Liste de mayor a menor la cantidad de fallecidos por edad en toda
@@ -256,20 +288,51 @@ fallecidos_edad=data[(data['Estado'] == 'Fallecido')].groupby(['Edad']).size().s
 print(f'Fallecidos por edad en toda Colombia. \n{fallecidos_edad}')
 print('*'*50)
 '''
-31. Liste el porcentaje de personas por atención de toda Colombia
-32. Haga un gráfico de barras por atención de toda Colombia
+PUNTO 31:
+Liste el porcentaje de personas por atención de toda Colombia
+'''
+porcentajes_atencion = data.groupby('Ubicación del caso').size() / len(data) * 100
+print(f'Porcentaje de personas por atención de toda Colombia:\n{porcentajes_atencion}')
+print('*'*50)
 
+'''
 33. Haga un gráfico de barras por Sexo de toda Colombia
 '''
+plt.title('Contagiados por sexo')
 sexo = ['F','M']
 cantidad = [data.loc[(data['Sexo'] == 'F')].shape[0],data.loc[(data['Sexo'] == 'M')].shape[0]]
 plt.barh(sexo,cantidad, color="green")
 plt.ylabel('Generos')
 plt.xlabel('Casos')
-plt.title('Contagiados por sexo')
 plt.show()
 '''
 34. Haga un gráfico de barras por tipo de toda Colombia
+'''
+plt.title('Por tipo ')
+atencion_tipo = ['Tiempo','PCR']
+cantidad_tipo=[data.loc[(data['Tipo de recuperación'] == 'Tiempo')].shape[0],data.loc[(data['Tipo de recuperación'] == 'PCR')].shape[0]]
+plt.barh(atencion_tipo,cantidad_tipo, color="green")
+plt.ylabel('Tipo')
+plt.xlabel('Cantidad')
+plt.show()
+'''
 35. Haga un gráfico de barras del número de contagiados, recuperados y
 fallecidos por fecha de toda Colombia
 '''
+plt.title('Múmero de contagiados, recuperados y fallecidos por fecha de toda Colombia')
+tipo = ['Contagiados','Fallecidos','Recuperados']
+datos=[data.shape[0],data.loc[(data['Estado'] == 'Fallecido')].shape[0],data.loc[(data['Recuperado'] == 'Recuperado')].shape[0]]
+plt.barh(tipo,datos, color="green")
+plt.ylabel('Personas')
+plt.xlabel('Casos')
+plt.show()
+'''
+32. Haga un gráfico de barras por atención de toda Colombia
+'''
+plt.title('tipo de  atencion por covid de toda Colombia')
+atencion = ['Casa','Fallecidos','Hospital','UCI']
+cantidad_casos=[data.loc[(data['Ubicación del caso'] == 'Casa')].shape[0],data.loc[(data['Ubicación del caso'] == 'Fallecido')].shape[0],data.loc[(data['Ubicación del caso'] == 'Hospital')].shape[0],data.loc[(data['Ubicación del caso'] == 'Hospital UCI')].shape[0]]
+plt.barh(atencion,cantidad_casos, color="green")
+plt.ylabel('Tipo de atencion')
+plt.xlabel('Casos')
+plt.show()
