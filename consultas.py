@@ -294,7 +294,16 @@ Liste el porcentaje de personas por atención de toda Colombia
 porcentajes_atencion = data.groupby('Ubicación del caso').size() / len(data) * 100
 print(f'Porcentaje de personas por atención de toda Colombia:\n{porcentajes_atencion}')
 print('*'*50)
-
+'''
+32. Haga un gráfico de barras por atención de toda Colombia
+'''
+plt.title('tipo de  atencion por covid de toda Colombia')
+atencion = ['Casa','Fallecidos','Hospital','UCI']
+cantidad_casos=[data.loc[(data['Ubicación del caso'] == 'Casa')].shape[0],data.loc[(data['Ubicación del caso'] == 'Fallecido')].shape[0],data.loc[(data['Ubicación del caso'] == 'Hospital')].shape[0],data.loc[(data['Ubicación del caso'] == 'Hospital UCI')].shape[0]]
+plt.barh(atencion,cantidad_casos, color="green")
+plt.ylabel('Tipo de atencion')
+plt.xlabel('Casos')
+plt.show()
 '''
 33. Haga un gráfico de barras por Sexo de toda Colombia
 '''
@@ -324,15 +333,5 @@ tipo = ['Contagiados','Fallecidos','Recuperados']
 datos=[data.shape[0],data.loc[(data['Estado'] == 'Fallecido')].shape[0],data.loc[(data['Recuperado'] == 'Recuperado')].shape[0]]
 plt.barh(tipo,datos, color="green")
 plt.ylabel('Personas')
-plt.xlabel('Casos')
-plt.show()
-'''
-32. Haga un gráfico de barras por atención de toda Colombia
-'''
-plt.title('tipo de  atencion por covid de toda Colombia')
-atencion = ['Casa','Fallecidos','Hospital','UCI']
-cantidad_casos=[data.loc[(data['Ubicación del caso'] == 'Casa')].shape[0],data.loc[(data['Ubicación del caso'] == 'Fallecido')].shape[0],data.loc[(data['Ubicación del caso'] == 'Hospital')].shape[0],data.loc[(data['Ubicación del caso'] == 'Hospital UCI')].shape[0]]
-plt.barh(atencion,cantidad_casos, color="green")
-plt.ylabel('Tipo de atencion')
 plt.xlabel('Casos')
 plt.show()
